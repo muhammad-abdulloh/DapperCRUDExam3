@@ -2,7 +2,6 @@
 using DapperCRUDExam3.Data.IRepositories;
 using DapperCRUDExam3.Data.Repositories;
 using DapperCRUDExam3.Domain.Models;
-using ExamProject_1.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,46 +14,47 @@ namespace DapperCRUDExam3.Service.Services
     public class SingerServices
     {
         IGenericRepository repo = new GenericRepository();
-        async Task Add()
+        public async Task AddAsync()
         {
-            string query = $"insert into singer (fullname, created_date) values ('{"Ali"}', '{"200-200-20"}')";
+            Console.WriteLine("Entering Singer FullName: ");
+            string fullName = Console.ReadLine();
+            string query = $"insert into Singer (FullName, CreatedDate) values ('{fullName}', '{DateTime.Now}')";
             await repo.CreateAsync<Singer>(query, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully addedd date! ");
         }
 
-        async Task Delete()
+        public async Task<bool> DeleteAsync(int? deletedId)
         {
-
-            string delete = $"delete singer where id = {1}";
+            if (deletedId is null)
+            {
+                return false;
+            }
+            string delete = $"delete Singer where id = {deletedId}";
             await repo.DeleteAsync<Singer>(delete, null, CommandType.Text);
+            return true;
         }
 
-        async Task GetAll()
+        public async Task<IEnumerable<Singer>> GetAllAsync()
         {
-            string q = $"select * from singer";
-            var si = await repo.GetAllAsync<Singer>(q, null, CommandType.Text);
+            string query = $"select * from Singer";
+            var result = await repo.GetAllAsync<Singer>(query, null, CommandType.Text);
+            return result;
+
         }
 
-        async Task Update()
+        public async Task UpdateAsync(string fullName, int id)
         {
-            string update = $"update singer set fullname = '{"SHerali Jurayev"}' where id = {1}";
+            string update = $"update singer set FullName = '{fullName}' where id = {id}";
             await repo.CreateAsync<Singer>(update, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully updated date! ");
         }
 
-        async Task Get()
+        public async Task<Singer> GetAsync(int id)
         {
-            string que = $"select * from singer where id = {1}";
-            await repo.GetAsync<Singer>(que, null, CommandType.Text);
+            string query = $"select * from Singer where id = {id}";
+            return await repo.GetAsync<Singer>(query, null, CommandType.Text);
         }
 
-        async Task GetAllInfo()
-        {
-            string q = "GetAllInfoSinger";
-            DynamicParameters pa = new DynamicParameters();
-            pa.Add("userId", 1);
-
-            var res = await repo.GetAsync<AllInfoSinger>(q, pa, CommandType.StoredProcedure);
-            Console.WriteLine();
-        }
     }
 
 }

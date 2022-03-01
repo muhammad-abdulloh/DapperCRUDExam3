@@ -2,7 +2,6 @@
 using DapperCRUDExam3.Data.IRepositories;
 using DapperCRUDExam3.Data.Repositories;
 using DapperCRUDExam3.Domain.Models;
-using ExamProject_1.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +14,7 @@ namespace DapperCRUDExam3.Service.Services
     public class MusicService
     {
         IGenericRepository repo = new GenericRepository();
-        public async Task Add()
+        public async Task AddAsync()
         {
             Console.WriteLine("Entering Title: ");
             string title = Console.ReadLine();
@@ -36,46 +35,45 @@ namespace DapperCRUDExam3.Service.Services
             int plyId = int.Parse(Console.ReadLine());
 
             DateTime dateTime = DateTime.Now;
-            string query = $"insert into Musics (Title, Description, Email, SingerId, Length, PlaylistId, created_date)" +
+            string query = $"insert into Musics (Title, Description, Email, SingerId, Length, PlaylistId, CreatedDate)" +
                 $" values ('{title}', '{descript}', '{eml}', {sgId}, {length}, {plyId}, '{dateTime}')";
             await repo.CreateAsync<Music>(query, null, CommandType.Text);
 
             Console.WriteLine("Sucsessfully creste date! ");
         }
 
-        public async Task Delete()
+        public async Task<bool> DeleteAsync(int? id)
         {
-
-            string delete = $"delete musics where id = {1}";
+            if (id is null)
+            {
+                return false;
+            }
+            string delete = $"delete musics where id = {id}";
             await repo.DeleteAsync<Music>(delete, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully deleted date! ");
+            return true;
         }
 
-        public async Task GetAll()
+        public async Task<IEnumerable<Music>> GetAllAsync()
         {
             string q = $"select * from musics";
-            var si = await repo.GetAllAsync<Music>(q, null, CommandType.Text);
+            var result = await repo.GetAllAsync<Music>(q, null, CommandType.Text);
+            return result;
         }
 
-        public async Task Update()
+        public async Task UpdateAsync(string descript, int updatedId)
         {
-            string update = $"update musics set fullname = '{"Muhammadkarim Toxtaboyev"}' where id = {1}";
+            string update = $"update musics set Description = '{descript}' where id = {updatedId}";
             await repo.CreateAsync<Music>(update, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully update date! ");
         }
 
-        public async Task Get()
+        public async Task<Music> GetAsync(int getID)
         {
-            string que = $"select * from musics where id = {1}";
-            await repo.GetAsync<Music>(que, null, CommandType.Text);
+            string que = $"select * from musics where id = {getID}";
+            var result = await repo.GetAsync<Music>(que, null, CommandType.Text);
+            return result;
         }
 
-        public async Task GetAllInfo()
-        {
-            string q = "GetAllInfo";
-            DynamicParameters pa = new DynamicParameters();
-            pa.Add("userId", 1);
-
-            var res = await repo.GetAsync<AllInfo>(q, pa, CommandType.StoredProcedure);
-            Console.WriteLine(res.FullName);
-        }
     }
 }

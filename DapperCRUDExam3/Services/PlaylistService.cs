@@ -2,7 +2,6 @@
 using DapperCRUDExam3.Data.IRepositories;
 using DapperCRUDExam3.Data.Repositories;
 using DapperCRUDExam3.Domain.Models;
-using ExamProject_1.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,45 +14,49 @@ namespace DapperCRUDExam3.Service.Services
     public class PlaylistServices
     {
         IGenericRepository repo = new GenericRepository();
-        async Task Add()
+        public async Task AddAsync()
         {
-            string query = $"insert into playlist (name, created_date) values ('{"Ali"}', '{"200-200-20"}')";
+            Console.WriteLine("Entering Name: ");
+            string name = Console.ReadLine();
+            string query = $"insert into Playlist (Name, CreatedDate) values ('{name}', '{DateTime.Now}')";
             await repo.CreateAsync<Playlist>(query, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully create date! ");
         }
 
-        async Task Delete()
+        public async Task<bool> DeleteAsync(int? deletedId)
         {
-
-            string delete = $"delete playlist where id = {1}";
+            if (deletedId is null)
+            {
+                return false;
+            }
+            string delete = $"delete Playlist where id = {deletedId}";
             await repo.DeleteAsync<Playlist>(delete, null, CommandType.Text);
+            return true;
+
+
         }
 
-        async Task GetAll()
+        public async Task<IEnumerable<Playlist>> GetAllAsync()
         {
-            string q = $"select * from playlist";
-            var si = await repo.GetAllAsync<Playlist>(q, null, CommandType.Text);
+            string query = $"select * from Playlist";
+            var result = await repo.GetAllAsync<Playlist>(query, null, CommandType.Text);
+            return result;
         }
 
-        async Task Update()
+        public async Task UpdateAsync(string name, int updatedId)
         {
-            string update = $"update playlist set name = '{"New"}' where id = {1}";
-            await repo.CreateAsync<Playlist>(update, null, CommandType.Text);
+            string query = $"update Playlist set Name = '{name}' where id = {updatedId}";
+            await repo.CreateAsync<Playlist>(query, null, CommandType.Text);
+            Console.WriteLine("Sucsessfully Update date! ");
         }
 
-        async Task Get()
+        public async Task<Playlist> GetAsync(int getId)
         {
-            string que = $"select * from playlist where id = {1}";
-            await repo.GetAsync<Playlist>(que, null, CommandType.Text);
+            string query = $"select * from Playlist where id = {getId}";
+            var result = await repo.GetAsync<Playlist>(query, null, CommandType.Text);
+            return result;
         }
 
-        async Task GetAllInfo()
-        {
-            string q = "GetAllInfoPlaylist";
-            DynamicParameters pa = new DynamicParameters();
-            pa.Add("userId", 1);
-            var res = await repo.GetAsync<AllInfoPlaylist>(q, pa, CommandType.StoredProcedure);
-            Console.WriteLine();
-        }
     }
 
 }

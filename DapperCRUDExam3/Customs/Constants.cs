@@ -2,6 +2,6 @@
 {
     public class Constants
     {
-        public static readonly string CONNECTION_DB = "Server = (LocalDb)\\MSSQLLocalDB; Database = Musician; Trusted_Connection = True;";
+        public static readonly string CONNECTION_DB = "Server = (localDb)\\MSSQLLocalDB; Database=Misician; Trusted_Connection = True;";
     }
 }
