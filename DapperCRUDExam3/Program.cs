@@ -10,13 +10,13 @@ namespace DapperCRUDExam3
         static async Task Main(string[] args)
         {
             MusicService music = new MusicService();
-            //await music.Add(); //done
+            //await music.AddAsync(); //done
 
-            //var getResult = await music.Get(); done
+            //var getResult = await music.GetAsync(); done
 
             //Console.WriteLine(getResult.SingerId);
             //await music.Delete(2); done
-            /*var rests = await music.GetAll(); //done
+            /*var rests = await music.GetAllAsync(); //done
 
             foreach (var rest in rests)
             {
