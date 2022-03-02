@@ -14,6 +14,10 @@ namespace DapperCRUDExam3.Service.Services
     public class PlaylistServices
     {
         IGenericRepository repo = new GenericRepository();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task AddAsync()
         {
             Console.WriteLine("Entering Name: ");
@@ -23,6 +27,11 @@ namespace DapperCRUDExam3.Service.Services
             Console.WriteLine("Sucsessfully create date! ");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deletedId"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteAsync(int? deletedId)
         {
             if (deletedId is null)
@@ -36,13 +45,23 @@ namespace DapperCRUDExam3.Service.Services
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Playlist>> GetAllAsync()
         {
             string query = $"select * from Playlist";
-            var result = await repo.GetAllAsync<Playlist>(query, null, CommandType.Text);
-            return result;
+            
+            return await repo.GetAllAsync<Playlist>(query, null, CommandType.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="updatedId"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(string name, int updatedId)
         {
             string query = $"update Playlist set Name = '{name}' where id = {updatedId}";
@@ -50,11 +69,16 @@ namespace DapperCRUDExam3.Service.Services
             Console.WriteLine("Sucsessfully Update date! ");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getId"></param>
+        /// <returns></returns>
         public async Task<Playlist> GetAsync(int getId)
         {
             string query = $"select * from Playlist where id = {getId}";
-            var result = await repo.GetAsync<Playlist>(query, null, CommandType.Text);
-            return result;
+            
+            return await repo.GetAsync<Playlist>(query, null, CommandType.Text);
         }
 
     }

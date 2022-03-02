@@ -14,6 +14,10 @@ namespace DapperCRUDExam3.Service.Services
     public class SingerServices
     {
         IGenericRepository repo = new GenericRepository();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task AddAsync()
         {
             Console.WriteLine("Entering Singer FullName: ");
@@ -22,7 +26,11 @@ namespace DapperCRUDExam3.Service.Services
             await repo.CreateAsync<Singer>(query, null, CommandType.Text);
             Console.WriteLine("Sucsessfully addedd date! ");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deletedId"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteAsync(int? deletedId)
         {
             if (deletedId is null)
@@ -34,14 +42,24 @@ namespace DapperCRUDExam3.Service.Services
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Singer>> GetAllAsync()
         {
             string query = $"select * from Singer";
-            var result = await repo.GetAllAsync<Singer>(query, null, CommandType.Text);
-            return result;
+            
+            return await repo.GetAllAsync<Singer>(query, null, CommandType.Text);
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task UpdateAsync(string fullName, int id)
         {
             string update = $"update singer set FullName = '{fullName}' where id = {id}";
@@ -49,6 +67,11 @@ namespace DapperCRUDExam3.Service.Services
             Console.WriteLine("Sucsessfully updated date! ");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Singer> GetAsync(int id)
         {
             string query = $"select * from Singer where id = {id}";

@@ -14,6 +14,10 @@ namespace DapperCRUDExam3.Service.Services
     public class MusicService
     {
         IGenericRepository repo = new GenericRepository();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task AddAsync()
         {
             Console.WriteLine("Entering Title: ");
@@ -42,6 +46,11 @@ namespace DapperCRUDExam3.Service.Services
             Console.WriteLine("Sucsessfully creste date! ");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteAsync(int? id)
         {
             if (id is null)
@@ -54,12 +63,23 @@ namespace DapperCRUDExam3.Service.Services
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Music>> GetAllAsync()
         {
             string q = $"select * from musics";
-            var result = await repo.GetAllAsync<Music>(q, null, CommandType.Text);
-            return result;
+            
+            return await repo.GetAllAsync<Music>(q, null, CommandType.Text);
         }
+
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="descript"></param>
+        /// <param name="updatedId"></param>
+        /// <returns></returns>
 
         public async Task UpdateAsync(string descript, int updatedId)
         {
@@ -68,11 +88,16 @@ namespace DapperCRUDExam3.Service.Services
             Console.WriteLine("Sucsessfully update date! ");
         }
 
+        /// <summary>
+        ///     
+        /// </summary>
+        /// <param name="getID"></param>
+        /// <returns></returns>
         public async Task<Music> GetAsync(int getID)
         {
             string que = $"select * from musics where id = {getID}";
-            var result = await repo.GetAsync<Music>(que, null, CommandType.Text);
-            return result;
+            
+            return await repo.GetAsync<Music>(que, null, CommandType.Text);
         }
 
     }
